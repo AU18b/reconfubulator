@@ -3,7 +3,8 @@ var bodyParser = require('body-parser');
 var parse = require('./parse.js');
 
 var app = express();
-app.use(bodyParser.json());
+// slack sends form
+app.use(bodyParser.urlencoded({ extended: true }));
 
 var port = process.env.PORT || 8001;
 
@@ -21,12 +22,9 @@ function post(request, response) {
 
     var parsed = parse(request.body.text);
 
-    var message = {
-        'text': request.body.text,
-        'out': parsed.players[0] + ' and ' + parsed.players[1] + ' played ' + parsed.score[0] + ':' + parsed.score[1] + ' against ' + parsed.players[2] + ' and ' + parsed.players[3] + '.'
-    };
-    response.setHeader('Content-Type', 'application/json');
-    response.status(200).send(JSON.stringify(message));
+    var message = parsed.players[0] + ' and ' + parsed.players[1] + ' played ' + parsed.score[0] + ':' + parsed.score[1] + ' against ' + parsed.players[2] + ' and ' + parsed.players[3] + '.';
+    response.setHeader('Content-Type', 'text/plain');
+    response.status(200).send(message);
 }
 
 module.exports = app;

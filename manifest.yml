@@ -1,9 +1,7 @@
 ---
 applications:
-- name: cf-node-mongodb
+- name: au18b-reconfubulator
   command: node app.js
   memory: 128M
   instances: 1
   path: .
-  services:
-   - dump

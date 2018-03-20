@@ -1,7 +1,7 @@
 {
   "name": "au18b-reconfubulator",
   "version": "0.0.1",
-  "description": "A microservice that takes a string and reconfubles it into a tischkicker game result.",
+  "description": "A microservice that takes a string from slack and reconfubles it into a tischkicker game result.",
   "author": {
     "name": "Christoph Szymanski",
     "email": "Christoph.Szymanski@sap.com"
@@ -10,29 +10,16 @@
     "type": "git",
     "url": "https://github.wdf.sap.corp/d044160/au18b.git"
   },
-  "engines": {
-    "node": "5.5.0"
-  },
   "dependencies": {
     "body-parser": "1.18.1",
-    "express": "4.15.4",
-    "mocha": "3.5.3"
+    "express": "4.15.4"
   },
   "devDependencies": {
-    "mocha": "2.5.3",
-    "precommit-hook": "3.0.0",
     "supertest": "3.0.0",
-    "eslint": "4.6.1"
+    "mocha": "3.5.3"
   },
   "scripts": {
     "start": "node app.js",
-    "test": "mocha test.js",
-    "lint": "node_modules/eslint/bin/eslint.js *.js",
-    "show-outdated": "npm outdated"
-  },
-  "pre-commit": [
-    "show-outdated",
-    "lint",
-    "test"
-  ]
+    "test": "mocha test.js"
+  }
 }
