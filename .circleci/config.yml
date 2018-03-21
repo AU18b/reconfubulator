@@ -47,7 +47,7 @@ jobs:
                     -H "Content-Type: application/x-www-form-urlencoded" \
                     -d "text"="@sp1 @sp2 battled @sp4 @sp5 and lost 3:10!" \
                     -X POST \
-                    https://${TEST_ROUTE}/
+                    "https://${TEST_ROUTE}.cfapps.eu10.hana.ondemand.com"
 workflows:
   version: 2
   build-and-deploy:
