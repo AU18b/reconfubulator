@@ -1,4 +1,6 @@
 ### Cloud Foundry Sample App using Nodejs and Mongo DB
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/AU18b/reconfubulator.svg)](https://greenkeeper.io/)
 The app provides a REST API that uses a Mongo DB backing service.
 
 The application exposes a RESTful API that can be used to list, store and delete bookmarks in a database.
