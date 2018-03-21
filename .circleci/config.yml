@@ -37,7 +37,6 @@ jobs:
       - checkout
       - run:
           command: |
-            set -x
             curl -L "https://packages.cloudfoundry.org/stable?release=linux64-binary&source=github" | tar -zx
             ./cf api $CF_API
             ./cf auth $CF_USER $CF_PASSWORD
