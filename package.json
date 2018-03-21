@@ -11,12 +11,12 @@
     "url": "https://github.wdf.sap.corp/d044160/au18b.git"
   },
   "dependencies": {
-    "body-parser": "1.18.1",
-    "express": "4.15.4"
+    "body-parser": "1.18.2",
+    "express": "4.16.3"
   },
   "devDependencies": {
     "supertest": "3.0.0",
-    "mocha": "3.5.3"
+    "mocha": "5.0.4"
   },
   "scripts": {
     "start": "node app.js",
