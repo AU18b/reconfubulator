@@ -20,6 +20,6 @@
   },
   "scripts": {
     "start": "node app.js",
-    "test": "mocha tests/"
+    "test": "mocha --exit tests/"
   }
 }
