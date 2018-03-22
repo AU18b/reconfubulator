@@ -48,7 +48,7 @@ jobs:
                     -d "text"="@sp1 @sp2 battled @sp4 @sp5 and lost 3:10!" \
                     -X POST \
                     "https://${CIRCLE_PROJECT_REPONAME}-${NODE_ENV}.cfapps.eu10.hana.ondemand.com"
-            ./cf delete ${CIRCLE_PROJECT_REPONAME}-${NODE_ENV} -rf
+            ./cf delete ${CIRCLE_PROJECT_REPONAME}-${NODE_ENV} -r -f
 workflows:
   version: 2
   build-and-deploy:
