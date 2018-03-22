@@ -1,31 +1,19 @@
-# Javascript Node CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-javascript/ for more details
-#
 version: 2
 jobs:
   build:
     docker:
       - image: circleci/node:9.8.0
-     
     working_directory: ~/repo
-
     steps:
       - checkout
-
-      # Download and cache dependencies
       - restore_cache:
           keys:
           - v1-dependencies-{{ checksum "package.json" }}
-
       - run: npm install
-
       - save_cache:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-        
-      # run tests!
       - run: npm test
   smoketest:
     docker:
@@ -36,20 +24,34 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Install CF CLI
           command: |
             export APP_NAME=${CIRCLE_PROJECT_REPONAME}-${NODE_ENV}-`echo ${CIRCLE_SHA1} | cut -c -7`
             curl -L "https://packages.cloudfoundry.org/stable?release=linux64-binary&source=github" | tar -zx
+      - run:
+          name: CF Push
+          command: |
+            export APP_NAME=${CIRCLE_PROJECT_REPONAME}-${NODE_ENV}-`echo ${CIRCLE_SHA1} | cut -c -7`
             ./cf api $CF_API
             ./cf auth $CF_USER $CF_PASSWORD
             ./cf target -o $CF_ORG
             ./cf push ${APP_NAME}
-            export TEST_ROUTE=`./cf routes | grep -i ${APP_NAME} | awk '{print $2}'`
-            curl -i -H "Accept: application/x-www-form-urlencoded" \
-                    -H "Content-Type: application/x-www-form-urlencoded" \
-                    -d "text"="@sp1 @sp2 battled @sp4 @sp5 and lost 3:10!" \
-                    -X POST \
-                    "https://${APP_NAME}.cfapps.eu10.hana.ondemand.com"
-            ./cf delete ${APP_NAME} -r -f
+      - run:
+          name: Smoke Test
+          command: |
+              export APP_NAME=${CIRCLE_PROJECT_REPONAME}-${NODE_ENV}-`echo ${CIRCLE_SHA1} | cut -c -7`
+              curl -i -H "Accept: application/x-www-form-urlencoded" \
+                   -H "Content-Type: application/x-www-form-urlencoded" \
+                   -d "text"="@sp1 @sp2 battled @sp4 @sp5 and lost 3:10!" \
+                   -X POST \
+                   "https://${APP_NAME}.cfapps.eu10.hana.ondemand.com"
+      - run:
+          name: Clean Up
+          when: always
+          command: |
+              APP_NAME=${CIRCLE_PROJECT_REPONAME}-${NODE_ENV}-`echo ${CIRCLE_SHA1} | cut -c -7` 
+              ./cf delete ${APP_NAME} -r -f
+
 workflows:
   version: 2
   build-and-deploy:
