@@ -26,13 +26,13 @@ jobs:
       - run:
         name: Install CF CLI
         command: |
-            export APP_NAME=${CIRCLE_PROJECT_REPONAME}-${NODE_ENV}-`echo ${CIRCLE_SHA1} | cut -c -7`
-            curl -L "https://packages.cloudfoundry.org/stable?release=linux64-binary&source=github" | tar -zx
-            ./cf api $CF_API
-            ./cf auth $CF_USER $CF_PASSWORD
-            ./cf target -o $CF_ORG
-            ./cf push ${APP_NAME}
-            curl -i -H "Accept: application/x-www-form-urlencoded" \
+          export APP_NAME=${CIRCLE_PROJECT_REPONAME}-${NODE_ENV}-`echo ${CIRCLE_SHA1} | cut -c -7`
+          curl -L "https://packages.cloudfoundry.org/stable?release=linux64-binary&source=github" | tar -zx
+          ./cf api $CF_API
+          ./cf auth $CF_USER $CF_PASSWORD
+          ./cf target -o $CF_ORG
+          ./cf push ${APP_NAME}
+          curl -i -H "Accept: application/x-www-form-urlencoded" \
                -H "Content-Type: application/x-www-form-urlencoded" \
                -d "text"="@sp1 @sp2 battled @sp4 @sp5 and lost 3:10!" \
                -X POST \
