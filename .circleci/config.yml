@@ -33,11 +33,11 @@ jobs:
     working_directory: cf/
     environment:
       - NODE_ENV=smoketest
-      - APP_NAME=${CIRCLE_PROJECT_REPONAME}-${NODE_ENV}-${CIRCLE_SHA1}
     steps:
       - checkout
       - run:
           command: |
+            export APP_NAME=${CIRCLE_PROJECT_REPONAME}-${NODE_ENV}-${CIRCLE_SHA1}
             curl -L "https://packages.cloudfoundry.org/stable?release=linux64-binary&source=github" | tar -zx
             ./cf api $CF_API
             ./cf auth $CF_USER $CF_PASSWORD
