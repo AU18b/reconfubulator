@@ -17,7 +17,7 @@ jobs:
       - run: npm test
   smoketest:
     docker:
-      - image: circleci/openjdk:8-browsers
+      - image: alpine:latest
     working_directory: cf/
     environment:
       - NODE_ENV=smoketest
