@@ -29,7 +29,7 @@ jobs:
         
       # run tests!
       - run: npm test
-  deploy:
+  smoketest:
     docker:
       - image: openjdk:9-jre
     working_directory: cf/
@@ -53,6 +53,6 @@ workflows:
   build-and-deploy:
     jobs:
       - build
-      - deploy:
+      - smoketest:
           requires:
             - build
