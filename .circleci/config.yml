@@ -33,6 +33,7 @@ jobs:
     working_directory: cf/
     environment:
       - NODE_ENV=smoketest
+      - APP_NAME=${CIRCLE_PROJECT_REPONAME}-${NODE_ENV}-${CIRCLE_SHA1}
     steps:
       - checkout
       - run:
@@ -41,14 +42,14 @@ jobs:
             ./cf api $CF_API
             ./cf auth $CF_USER $CF_PASSWORD
             ./cf target -o $CF_ORG
-            ./cf push ${CIRCLE_PROJECT_REPONAME}-${NODE_ENV}
-            export TEST_ROUTE=`./cf routes | grep -i ${CIRCLE_PROJECT_REPONAME} | awk '{print $2}'`
+            ./cf push ${APP_NAME}
+            export TEST_ROUTE=`./cf routes | grep -i ${APP_NAME} | awk '{print $2}'`
             curl -i -H "Accept: application/x-www-form-urlencoded" \
                     -H "Content-Type: application/x-www-form-urlencoded" \
                     -d "text"="@sp1 @sp2 battled @sp4 @sp5 and lost 3:10!" \
                     -X POST \
-                    "https://${CIRCLE_PROJECT_REPONAME}-${NODE_ENV}.cfapps.eu10.hana.ondemand.com"
-            ./cf delete ${CIRCLE_PROJECT_REPONAME}-${NODE_ENV} -r -f
+                    "https://${APP_NAME}.cfapps.eu10.hana.ondemand.com"
+            ./cf delete ${APP_NAME} -r -f
 workflows:
   version: 2
   build-and-deploy:
