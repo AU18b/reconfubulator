@@ -32,7 +32,7 @@ jobs:
       - image: openjdk:9-jre
     working_directory: cf/
     environment:
-      - NODE_ENV "smoketest"
+      - NODE_ENV="smoketest"
     steps:
       - checkout
       - run:
