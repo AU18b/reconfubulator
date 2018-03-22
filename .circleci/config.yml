@@ -38,11 +38,12 @@ jobs:
             ./cf push ${APP_NAME}
       - run
           name: Smoke Test
-          command: curl -i -H "Accept: application/x-www-form-urlencoded" \
-                        -H "Content-Type: application/x-www-form-urlencoded" \
-                        -d "text"="@sp1 @sp2 battled @sp4 @sp5 and lost 3:10!" \
-                        -X POST \
-                        "https://${APP_NAME}.cfapps.eu10.hana.ondemand.com"
+          command: |
+              curl -i -H "Accept: application/x-www-form-urlencoded" \
+                   -H "Content-Type: application/x-www-form-urlencoded" \
+                   -d "text"="@sp1 @sp2 battled @sp4 @sp5 and lost 3:10!" \
+                   -X POST \
+                   "https://${APP_NAME}.cfapps.eu10.hana.ondemand.com"
       - run:
           name: Clean Up
           command: ./cf delete ${APP_NAME} -r -f
