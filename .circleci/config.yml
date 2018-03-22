@@ -23,22 +23,21 @@ jobs:
       - NODE_ENV=smoketest
     steps:
       - checkout
-      - run: |
-        export APP_NAME=${CIRCLE_PROJECT_REPONAME}-${NODE_ENV}-`echo ${CIRCLE_SHA1} | cut -c -7`
-        curl -L "https://packages.cloudfoundry.org/stable?release=linux64-binary&source=github" | tar -zx
-      - run: | 
-        ./cf api $CF_API
-        ./cf auth $CF_USER $CF_PASSWORD
-        ./cf target -o $CF_ORG
-        ./cf push ${APP_NAME}
-      - run: export TEST_ROUTE=`./cf routes | grep -i ${APP_NAME} | awk '{print $2}'` \
-               && curl -i 
-                       -H "Accept: application/x-www-form-urlencoded" \
-                       -H "Content-Type: application/x-www-form-urlencoded" \
-                       -d "text"="@sp1 @sp2 battled @sp4 @sp5 and lost 3:10!" \
-                       -X POST \
-                       "https://${APP_NAME}.cfapps.eu10.hana.ondemand.com"
-      - run: ./cf delete ${APP_NAME} -r -f
+      - run:
+          command: |
+            export APP_NAME=${CIRCLE_PROJECT_REPONAME}-${NODE_ENV}-`echo ${CIRCLE_SHA1} | cut -c -7`
+            curl -L "https://packages.cloudfoundry.org/stable?release=linux64-binary&source=github" | tar -zx
+            ./cf api $CF_API
+            ./cf auth $CF_USER $CF_PASSWORD
+            ./cf target -o $CF_ORG
+            ./cf push ${APP_NAME}
+            export TEST_ROUTE=`./cf routes | grep -i ${APP_NAME} | awk '{print $2}'`
+            curl -i -H "Accept: application/x-www-form-urlencoded" \
+                    -H "Content-Type: application/x-www-form-urlencoded" \
+                    -d "text"="@sp1 @sp2 battled @sp4 @sp5 and lost 3:10!" \
+                    -X POST \
+                    "https://${APP_NAME}.cfapps.eu10.hana.ondemand.com"
+            ./cf delete ${APP_NAME} -r -f
 workflows:
   version: 2
   build-and-deploy:
