@@ -39,7 +39,7 @@ jobs:
                 -X POST \
                 "https://${APP_NAME}.cfapps.eu10.hana.ondemand.com"
       - run: |
-       ./cf delete ${APP_NAME} -r -f
+        ./cf delete ${APP_NAME} -r -f
 workflows:
   version: 2
   build-and-deploy:
