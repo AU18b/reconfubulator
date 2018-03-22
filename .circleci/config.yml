@@ -31,15 +31,14 @@ jobs:
         ./cf auth $CF_USER $CF_PASSWORD
         ./cf target -o $CF_ORG
         ./cf push ${APP_NAME}
-      - run: |
-        export TEST_ROUTE=`./cf routes | grep -i ${APP_NAME} | awk '{print $2}'`
-        curl -i -H "Accept: application/x-www-form-urlencoded" \
-                -H "Content-Type: application/x-www-form-urlencoded" \
-                -d "text"="@sp1 @sp2 battled @sp4 @sp5 and lost 3:10!" \
-                -X POST \
-                "https://${APP_NAME}.cfapps.eu10.hana.ondemand.com"
-      - run: |
-        ./cf delete ${APP_NAME} -r -f
+      - run: export TEST_ROUTE=`./cf routes | grep -i ${APP_NAME} | awk '{print $2}'` \
+               && curl -i 
+                       -H "Accept: application/x-www-form-urlencoded" \
+                       -H "Content-Type: application/x-www-form-urlencoded" \
+                       -d "text"="@sp1 @sp2 battled @sp4 @sp5 and lost 3:10!" \
+                       -X POST \
+                       "https://${APP_NAME}.cfapps.eu10.hana.ondemand.com"
+      - run: ./cf delete ${APP_NAME} -r -f
 workflows:
   version: 2
   build-and-deploy:
