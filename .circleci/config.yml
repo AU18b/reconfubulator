@@ -36,7 +36,7 @@ jobs:
             ./cf auth $CF_USER $CF_PASSWORD
             ./cf target -o $CF_ORG
             ./cf push ${APP_NAME}
-      - run
+      - run:
           name: Smoke Test
           command: |
               curl -i -H "Accept: application/x-www-form-urlencoded" \
