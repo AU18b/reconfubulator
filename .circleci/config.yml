@@ -17,7 +17,7 @@ jobs:
       - run: npm test
   smoketest:
     docker:
-      - image: circleci/openjdk:latest
+      - image: openjdk:9.0-jre-slim
     working_directory: cf/
     environment:
       - NODE_ENV=smoketest
