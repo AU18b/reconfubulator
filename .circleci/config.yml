@@ -35,18 +35,18 @@ jobs:
       - checkout
       - run:
           command: |
-            export NODE_ENV smoketest
+            export NODE_ENV=smoketest
             curl -L "https://packages.cloudfoundry.org/stable?release=linux64-binary&source=github" | tar -zx
             ./cf api $CF_API
             ./cf auth $CF_USER $CF_PASSWORD
             ./cf target -o $CF_ORG
-            ./cf push reconfubulator-${NODE_ENV}
-            export TEST_ROUTE=`./cf routes | grep -i reconfubulator | awk '{print $2}'`
+            ./cf push ${CIRCLE_PROJECT_REPONAME}-${NODE_ENV}
+            export TEST_ROUTE=`./cf routes | grep -i ${CIRCLE_PROJECT_REPONAME} | awk '{print $2}'`
             curl -i -H "Accept: application/x-www-form-urlencoded" \
                     -H "Content-Type: application/x-www-form-urlencoded" \
                     -d "text"="@sp1 @sp2 battled @sp4 @sp5 and lost 3:10!" \
                     -X POST \
-                    "https://reconfubulator-${NODE_ENV}.cfapps.eu10.hana.ondemand.com"
+                    "https://${CIRCLE_PROJECT_REPONAME}-${NODE_ENV}.cfapps.eu10.hana.ondemand.com"
 workflows:
   version: 2
   build-and-deploy:
