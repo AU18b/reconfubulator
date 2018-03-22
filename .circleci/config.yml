@@ -36,8 +36,6 @@ jobs:
             ./cf auth $CF_USER $CF_PASSWORD
             ./cf target -o $CF_ORG
             ./cf push ${APP_NAME}
-            rm -rf ./cf
-            ls -laH
       - run:
           name: Smoke Test
           command: |
