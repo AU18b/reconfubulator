@@ -37,7 +37,7 @@ jobs:
       - checkout
       - run:
           command: |
-            export APP_NAME=${CIRCLE_PROJECT_REPONAME}-${NODE_ENV}-${CIRCLE_SHA1}
+            export APP_NAME=${CIRCLE_PROJECT_REPONAME}-${NODE_ENV}-`echo ${CIRCLE_SHA1} | cut -c -7`
             curl -L "https://packages.cloudfoundry.org/stable?release=linux64-binary&source=github" | tar -zx
             ./cf api $CF_API
             ./cf auth $CF_USER $CF_PASSWORD
