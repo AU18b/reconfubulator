@@ -16,6 +16,8 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
       - run: npm test
   smoketest:
+    docker:
+      - image: circleci/openjdk:8-browsers
     working_directory: cf/
     environment:
       - NODE_ENV=smoketest
