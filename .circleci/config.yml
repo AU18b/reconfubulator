@@ -31,11 +31,12 @@ jobs:
     docker:
       - image: openjdk:9-jre
     working_directory: cf/
+    environment:
+      - NODE_ENV "smoketest"
     steps:
       - checkout
       - run:
           command: |
-            export NODE_ENV=smoketest
             curl -L "https://packages.cloudfoundry.org/stable?release=linux64-binary&source=github" | tar -zx
             ./cf api $CF_API
             ./cf auth $CF_USER $CF_PASSWORD
