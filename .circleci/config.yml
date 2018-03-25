@@ -3,6 +3,8 @@ jobs:
   build:
     docker:
       - image: circleci/node:9.8.0
+      - image: mongo:3.6.3
+        command: [mongod, --smallfiles]
     working_directory: ~/repo
     steps:
       - checkout
