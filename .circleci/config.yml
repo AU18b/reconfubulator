@@ -3,6 +3,8 @@ jobs:
   build:
     docker:
       - image: circleci/node:9.8.0
+      - image: mongo:3.6.3
+        command: [mongod, --smallfiles]
     working_directory: ~/repo
     steps:
       - checkout
@@ -45,6 +47,12 @@ jobs:
                    -d "text"="@sp1 @sp2 battled @sp4 @sp5 and lost 3:10!" \
                    -X POST \
                    "https://${APP_NAME}.cfapps.eu10.hana.ondemand.com"
+      - run:
+          name: Logs
+          when: on_fail
+          command: |
+              APP_NAME=${CIRCLE_PROJECT_REPONAME}-${NODE_ENV}-`echo ${CIRCLE_SHA1} | cut -c -7` 
+              ./cf logs ${APP_NAME} --recent
       - run:
           name: Clean Up
           when: always
