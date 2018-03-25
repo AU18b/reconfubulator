@@ -48,6 +48,12 @@ jobs:
                    -X POST \
                    "https://${APP_NAME}.cfapps.eu10.hana.ondemand.com"
       - run:
+          name: Logs
+          when: on_fail
+          command: |
+              APP_NAME=${CIRCLE_PROJECT_REPONAME}-${NODE_ENV}-`echo ${CIRCLE_SHA1} | cut -c -7` 
+              ./cf logs ${APP_NAME} --recent
+      - run:
           name: Clean Up
           when: always
           command: |
