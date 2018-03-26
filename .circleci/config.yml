@@ -103,6 +103,6 @@ workflows:
           requires:
             - build
       - deployment:
-        type: approval
+          type: approval
           requires:
-           - smoketest
+            - smoketest
