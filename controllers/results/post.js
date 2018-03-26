@@ -1,5 +1,6 @@
 
 const parse = require('../../parse.js');
+const MatchModel = require('../../models/match.js');
 
 module.exports = function(request, response) {
   if (!request.body || !request.body.text) {
@@ -16,7 +17,7 @@ module.exports = function(request, response) {
 };
 
 function storeResult(parsed) {
-  let storableResult = {
+  let storable = {
     'match' : [{
       'team': [parsed.players[0], parsed.players[1]],
       'score': parsed.score[0] 
@@ -27,5 +28,16 @@ function storeResult(parsed) {
     }]
   };
 
-  return storableResult;
+  let data = new MatchModel(storable);
+
+  data.save(function (err, row) {
+    if (err) {
+      response.status(500).send('I cound not save your data, the back-end says: ' + err);
+    }
+    /*response
+      .status(201)
+      .set('Location', '/' + row._id)
+      .send();*/
+  });
 }
+
