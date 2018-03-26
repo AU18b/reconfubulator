@@ -58,7 +58,7 @@ jobs:
           command: |
               APP_NAME=${CIRCLE_PROJECT_REPONAME}-${NODE_ENV}-`echo ${CIRCLE_SHA1} | cut -c -7` 
               ./cf delete ${APP_NAME} -r -f
-  deployment:
+  deploy-to-production:
     docker:
       - image: openjdk:9-jre
     working_directory: cf/
@@ -102,7 +102,7 @@ workflows:
       - smoketest:
           requires:
             - build
-      - deployment:
+      - deploy-to-production:
           type: approval
           requires:
             - smoketest
