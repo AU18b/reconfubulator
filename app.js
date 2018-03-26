@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const parse = require('./parse.js');
+const post = require('./controllers/results/post.js');
 const cfenv = require('cfenv');
 const mongoose = require('mongoose');
 
@@ -20,43 +20,15 @@ mongoose.connect(dbUri);
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 
-app.post('/', postReconfubulator);
+app.post('/', post);
 app.get('/results/', getResults);
-app.post('/results/', postResult);
+app.post('/results/', postResults);
 app.get('/results/:id', getResultById);
 app.delete('/results/:id', deleteResult);
 
 app.listen(port, function () {
   console.log('Server running on port ' + port + '.');
 });
-
-function postReconfubulator(request, response) {
-  if (!request.body || !request.body.text) {
-    response.status(400).send('You need to send some text, friend.');
-    return;
-  }
-
-  let parsed = parse(request.body.text);
-  //storeResult(parsed);
-
-  let message = parsed.players[0] + ' and ' + parsed.players[1] + ' played ' + parsed.score[0] + ':' + parsed.score[1] + ' against ' + parsed.players[2] + ' and ' + parsed.players[3] + '.';
-  response.setHeader('Content-Type', 'text/plain');
-  response.status(200).send(message);
-}
-
-/*
-function storeResults(parsed) {
-  let storableResult = {
-    'match' : [{
-      'team': [parsed.players[0], parsed.players[1]],
-      'score': parsed.score[0] 
-    },
-    {
-      'team': [parsed.players[2], parsed.players[3]],
-      'score': parsed.score[1] 
-    }]
-  };
-}*/
 
 function deleteResult(request, response) {
   MatchModel.find(
@@ -101,7 +73,7 @@ function getResultById(request, response) {
     });
 }
 
-function postResult(request, response) {
+function postResults(request, response) {
   if (!request.body || !request.body.match) {
     response.status(400).send('You need to send me something like this: { "match": [{ "team": [String], "score": Number }]}');
     return;
