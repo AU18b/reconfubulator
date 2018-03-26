@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const post = require('./controllers/results/post.js');
+const getPlayerResults = require('./controllers/players/get.js');
 const cfenv = require('cfenv');
 const mongoose = require('mongoose');
 
@@ -21,10 +22,14 @@ const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 
 app.post('/', post);
+
 app.get('/results/', getResults);
 app.post('/results/', postResults);
 app.get('/results/:id', getResultById);
 app.delete('/results/:id', deleteResult);
+
+app.get('/players/:name', getPlayerResults);
+
 
 app.listen(port, function () {
   console.log('Server running on port ' + port + '.');
