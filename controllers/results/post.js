@@ -9,14 +9,14 @@ module.exports = function(request, response) {
   }
   
   let parsed = parse(request.body.text);
-  storeResult(parsed);
+  storeResult(parsed, response);
   
   let message = parsed.players[0] + ' and ' + parsed.players[1] + ' played ' + parsed.score[0] + ':' + parsed.score[1] + ' against ' + parsed.players[2] + ' and ' + parsed.players[3] + '.';
   response.setHeader('Content-Type', 'text/plain');
   response.status(200).send(message);
 };
 
-function storeResult(parsed) {
+function storeResult(parsed, response) {
   let storable = {
     'match' : [{
       'team': [parsed.players[0], parsed.players[1]],
@@ -34,6 +34,7 @@ function storeResult(parsed) {
     if (err) {
       response.status(500).send('I cound not save your data, the back-end says: ' + err);
     }
+    return row._id;
     /*response
       .status(201)
       .set('Location', '/' + row._id)
