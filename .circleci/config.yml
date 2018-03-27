@@ -28,7 +28,6 @@ jobs:
       - run:
           name: Install CF CLI
           command: |
-            export APP_NAME=${CIRCLE_PROJECT_REPONAME}-${NODE_ENV}-`echo ${CIRCLE_SHA1} | cut -c -7`
             curl -L "https://packages.cloudfoundry.org/stable?release=linux64-binary&source=github" | tar -zx
       - run:
           name: CF Push
@@ -59,6 +58,41 @@ jobs:
           command: |
               APP_NAME=${CIRCLE_PROJECT_REPONAME}-${NODE_ENV}-`echo ${CIRCLE_SHA1} | cut -c -7` 
               ./cf delete ${APP_NAME} -r -f
+  deploy-to-production:
+    docker:
+      - image: openjdk:9-jre
+    working_directory: cf/
+    environment:
+      - NODE_ENV=production
+    steps:
+      - checkout
+      - run:
+          name: Install CF CLI
+          command: |
+            curl -L "https://packages.cloudfoundry.org/stable?release=linux64-binary&source=github" | tar -zx
+      - run:
+          name: CF Push
+          command: |
+            export APP_NAME=${CIRCLE_PROJECT_REPONAME}
+            ./cf api $CF_API
+            ./cf auth $CF_USER $CF_PASSWORD
+            ./cf target -o $CF_ORG
+            ./cf push ${APP_NAME}
+      - run:
+          name: Smoke Test
+          command: |
+              export APP_NAME=${CIRCLE_PROJECT_REPONAME}
+              curl -i -H "Accept: application/x-www-form-urlencoded" \
+                   -H "Content-Type: application/x-www-form-urlencoded" \
+                   -d "text"="@sp1 @sp2 battled @sp4 @sp5 and lost 3:10!" \
+                   -X POST \
+                   "https://${APP_NAME}.cfapps.eu10.hana.ondemand.com"
+      - run:
+          name: Logs
+          when: on_fail
+          command: |
+              APP_NAME=${CIRCLE_PROJECT_REPONAME}
+              ./cf logs ${APP_NAME} --recent
 
 workflows:
   version: 2
@@ -68,3 +102,10 @@ workflows:
       - smoketest:
           requires:
             - build
+      - deploy-to-production:
+          type: approval
+          requires:
+            - smoketest
+          filters:
+            branches:
+              only: master

@@ -30,6 +30,7 @@ app.listen(port, function () {
   console.log('Server running on port ' + port + '.');
 });
 
+
 function deleteResult(request, response) {
   MatchModel.find(
     { 'id': request.params.id },
