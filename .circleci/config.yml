@@ -17,6 +17,8 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
       - run: npm test
+      - store_artifacts:
+          path: ~/repo
   smoketest:
     docker:
       - image: openjdk:9-jre
