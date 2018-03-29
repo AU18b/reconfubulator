@@ -24,8 +24,8 @@ describe('Parsing input strings', function() {
       players: [ '@tom', '@dick', '@harry', '@otherguy' ],
       score: [ '10', '2' ]
     };
-    assert.equal(parse(input).score[0], 10);
-    assert.equal(parse(input).score[1], 2);
+    assert.equal(parse(input).score[0], expected.score[0]);
+    assert.equal(parse(input).score[1], expected.score[1]);
   });
     
   

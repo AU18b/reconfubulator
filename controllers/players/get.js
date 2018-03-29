@@ -1,7 +1,7 @@
 const MatchModel = require('./../../models/match.js');
 
 module.exports = function(request, response) {
-  let query = { "match.team":  request.params.name };
+  let query = { 'match.team':  request.params.name };
 
   MatchModel.find(
     query,
@@ -11,5 +11,5 @@ module.exports = function(request, response) {
         return;
       }
       response.status(200).send(docs);
-  });
+    });
 };

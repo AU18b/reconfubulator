@@ -7,7 +7,7 @@ module.exports = function parse(text) {
   var textWithoutPlayers = text;
   
   players.forEach(name => {
-    textWithoutPlayers =  textWithoutPlayers.replace(new RegExp(name,"gm"),"");
+    textWithoutPlayers =  textWithoutPlayers.replace(new RegExp(name,'gm'),'');
   });
    
   let score = textWithoutPlayers.match(scoreRegex);

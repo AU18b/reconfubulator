@@ -29,7 +29,7 @@ module.exports = function(request, response) {
         'Content-Type': 'text/plain'
       })
       .send(message);
-    });
+  });
 };
 
 function getModel(parsed) {
