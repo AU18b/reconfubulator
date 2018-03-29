@@ -33,7 +33,7 @@ describe('Supertesting the API', function() {
         .expect(201, '@Laura and @' + uniquePlayerName + ' played 10:0 against @Peter and @Mary.')
         .then(function get() {
           request(app)
-            .get('/player/' + uniquePlayerName)
+            .get('/players/@' + uniquePlayerName)
             .set('Accept', 'application/json')
             .expect(200)
             .end(done);
