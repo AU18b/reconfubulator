@@ -21,33 +21,16 @@ mongoose.connect(dbUri);
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 
+// routes
 app.post('/', post);
-
 app.get('/results/', getResults);
 app.post('/results/', postResults);
 app.get('/results/:id', getResultById);
-app.delete('/results/:id', deleteResult);
-
 app.get('/players/:name', getPlayerResults);
-
 
 app.listen(port, function () {
   console.log('Server running on port ' + port + '.');
 });
-
-
-function deleteResult(request, response) {
-  MatchModel.find(
-    { 'id': request.params.id },
-    function (err) {
-      if (err) {
-        response.status(500).send(err);
-        return;
-      }
-    }).remove(function() {
-    response.sendStatus(204);
-  });
-}
 
 function getResults(request, response) {
   MatchModel.find(
