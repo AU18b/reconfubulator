@@ -16,7 +16,7 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-      - run: npm test
+      - run: npm test && npm run coverage
   smoketest:
     docker:
       - image: openjdk:9-jre
