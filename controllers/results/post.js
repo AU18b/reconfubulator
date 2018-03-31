@@ -1,5 +1,5 @@
 const MatchModel = require('../../models/match');
-const validate = require('../../validate');
+//const validate = require('../../validate');
 
 module.exports = function(request, response) {
   if (!request.body || !request.body.match) {
@@ -7,20 +7,20 @@ module.exports = function(request, response) {
     return;
   }
   
-  if (!validate(request.body)) {
-    response.status(400).send('Your scores look fishy. Check again.');
-    return;
-  }
-  
   let data = new MatchModel(request.body);
   
-  data.save(function (err, row) {
-    if (err) {
-      response.status(500).send(err);
-    }
-    response
-      .status(201)
-      .set('Location', '/' + row._id)
-      .send();
+  data.validate().catch(function(err) {
+    response.status(400).send('Your scores look fishy. Check again. \n' + err);
+    return;
+  }).then(function() {
+    data.save(function (err, row) {
+      if (err) {
+        response.status(500).send(err);
+      }
+      response
+        .status(201)
+        .set('Location', '/' + row._id)
+        .send();
+    });
   });
 };
