@@ -11,28 +11,25 @@ describe('Test result score validation:', function() {
       'score': 10
     }]};
 
-    new MatchModel(match).validate()
-      .then(function(){})
-      .catch(
-        assert.fail
-      );
+    let error = new MatchModel(match).validateSync();
+    assert.equal(error, null);
   });
-  /*
+
   it('no draw is allowed', function() {
     let match = 
-            { 'match': [{ 
-              'team': ['Alejandra', 'Sergey'], 
-              'score': 7
-            }, {
-              'team': ['Marcus', 'Ken'], 
-              'score': 7
-            }]};
-    let m = new MatchModel(match);
-    assert.equal(m.validateSync(), true);
+      { 'match': [{ 
+        'team': ['Alejandra', 'Sergey'], 
+        'score': 7
+      }, {
+        'team': ['Marcus', 'Ken'], 
+        'score': 7
+      }]};
+    let error = new MatchModel(match).validateSync();
+    assert.notEqual(error, null);
   });
 
   it('only one winner', function() {
-    var match = 
+    let match = 
             { 'match': [{ 
               'team': ['Alejandra', 'Sergey'], 
               'score': 10
@@ -40,10 +37,10 @@ describe('Test result score validation:', function() {
               'team': ['Marcus', 'Ken'], 
               'score': 10
             }]};
-            let m = new MatchModel(match);
-            assert.equal(m.validateSync(), false);
+    let error = new MatchModel(match).validateSync();
+    assert.notEqual(error, null);
   });
-*/
+
   it('score can\'t be higher than 10', function() {
     let match = { 'match': [{ 
       'team': ['Alejandra', 'Sergey'], 
@@ -52,9 +49,8 @@ describe('Test result score validation:', function() {
       'team': ['Marcus', 'Ken'], 
       'score': 10
     }]};
-    new MatchModel(match).validate()
-      .then(assert.fail)
-      .catch(function() {});
+    let error = new MatchModel(match).validateSync();
+    assert.notEqual(error, null);
   });
 
   it('Score can\'t be lower than 0', function() {
@@ -66,9 +62,8 @@ describe('Test result score validation:', function() {
         'team': ['Marcus', 'Ken'], 
         'score': 10
       }]};
-    new MatchModel(match).validate()
-      .then(assert.fail)
-      .catch(function() {});
+    let error = new MatchModel(match).validateSync();
+    assert.notEqual(error, null);
   });
 
   it('Score can\'t be lower than 0', function() {
@@ -80,9 +75,8 @@ describe('Test result score validation:', function() {
         'team': ['Marcus', 'Ken'], 
         'score': 10
       }]};
-    new MatchModel(match).validate()
-      .then(assert.fail)
-      .catch(function() {});
+    let error = new MatchModel(match).validateSync();
+    assert.notEqual(error, null);
   });
 
   it('Score must be a number', function() {
@@ -94,9 +88,8 @@ describe('Test result score validation:', function() {
         'team': ['Marcus', 'Ken'], 
         'score': 10
       }]};
-    new MatchModel(match).validate()
-      .then(assert.fail)
-      .catch(function() {});
+    let error = new MatchModel(match).validateSync();
+    assert.notEqual(error, null);
   });
 
   it('Score must be set', function() {
@@ -107,9 +100,8 @@ describe('Test result score validation:', function() {
         'team': ['Marcus', 'Ken'], 
         'score': 10
       }]};
-    new MatchModel(match).validate()
-      .then(assert.fail)
-      .catch(function() {});
+    let error = new MatchModel(match).validateSync();
+    assert.notEqual(error, null);
   });
 
   it('Team size of 1 is possible', function() {
@@ -121,9 +113,8 @@ describe('Test result score validation:', function() {
         'team': ['Marcus', 'Ken'], 
         'score': 10
       }]};
-    new MatchModel(match).validate()
-      .then(function() {})
-      .catch(assert.fail);
+    let error = new MatchModel(match).validateSync();
+    assert.equal(error, null);
   });
 
   it('Team size of 3 is not possible', function() {
@@ -135,8 +126,32 @@ describe('Test result score validation:', function() {
         'team': ['Marcus', 'Ken'], 
         'score': 10
       }]};
-    new MatchModel(match).validate()
-      .then(assert.fail)
-      .catch(function() {});
+    let error = new MatchModel(match).validateSync();
+    assert.notEqual(error, null);
   });
+
+  it('team must be set', function() {
+    let match = 
+      { 'match': [{ 
+        'score': 9
+      }, {
+        'team': ['Marcus', 'Ken'], 
+        'score': 10
+      }]};
+    let error = new MatchModel(match).validateSync();
+    assert.notEqual(error, null);
+  });
+
+  it('there must be at least one team with 10 goals', function() {
+    let match = 
+      { 'match': [{ 
+        'team': ['Parsa', 'Holger'], 
+        'score': 9
+      }, {
+        'team': ['Marcus', 'Ken'], 
+        'score': 9
+      }]};
+    let error = new MatchModel(match).validateSync();
+    assert.notEqual(error, null);
+  }); 
 });
