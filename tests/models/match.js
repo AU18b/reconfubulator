@@ -4,11 +4,11 @@ const assert = require('assert');
 describe('Test result score validation:', function() {
   it('10:9 is a valid result', function() {
     let match = { 'match': [{ 
-              'team': ['Alejandra', 'Sergey'], 
-              'score': 9
-            }, {
-              'team': ['Marcus', 'Ken'], 
-              'score': 10
+      'team': ['Alejandra', 'Sergey'], 
+      'score': 9
+    }, {
+      'team': ['Marcus', 'Ken'], 
+      'score': 10
     }]};
 
     new MatchModel(match).validate()
@@ -17,7 +17,7 @@ describe('Test result score validation:', function() {
         assert.fail
       );
   });
-/*
+  /*
   it('no draw is allowed', function() {
     let match = 
             { 'match': [{ 
@@ -46,11 +46,11 @@ describe('Test result score validation:', function() {
 */
   it('score can\'t be higher than 10', function() {
     let match = { 'match': [{ 
-        'team': ['Alejandra', 'Sergey'], 
-        'score': 11
-      }, {
-        'team': ['Marcus', 'Ken'], 
-        'score': 10
+      'team': ['Alejandra', 'Sergey'], 
+      'score': 11
+    }, {
+      'team': ['Marcus', 'Ken'], 
+      'score': 10
     }]};
     new MatchModel(match).validate()
       .then(assert.fail)
@@ -103,6 +103,34 @@ describe('Test result score validation:', function() {
     let match = 
       { 'match': [{ 
         'team': ['Alejandra', 'Sergey']
+      }, {
+        'team': ['Marcus', 'Ken'], 
+        'score': 10
+      }]};
+    new MatchModel(match).validate()
+      .then(assert.fail)
+      .catch(function() {});
+  });
+
+  it('Team size of 1 is possible', function() {
+    let match = 
+      { 'match': [{ 
+        'team': ['Roman'],
+        'score': 9
+      }, {
+        'team': ['Marcus', 'Ken'], 
+        'score': 10
+      }]};
+    new MatchModel(match).validate()
+      .then(function() {})
+      .catch(assert.fail);
+  });
+
+  it('Team size of 3 is not possible', function() {
+    let match = 
+      { 'match': [{ 
+        'team': ['Roman', 'Kay', 'Thorsten'],
+        'score': 9
       }, {
         'team': ['Marcus', 'Ken'], 
         'score': 10

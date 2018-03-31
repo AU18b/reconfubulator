@@ -1,6 +1,11 @@
 const MatchModel = require('../../models/match');
-//const validate = require('../../validate');
 
+/**
+ * POST /results/
+ * Storing well formed JSON into mongo database. Validation included.
+ * @param {*} request 
+ * @param {*} response 
+ */
 module.exports = function(request, response) {
   if (!request.body || !request.body.match) {
     response.status(400).send('You need to send me something like this: { "match": [{ "team": [String], "score": Number }]}');
