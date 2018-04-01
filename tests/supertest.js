@@ -22,25 +22,6 @@ describe('Supertesting the API', function() {
     });
   });
 
-  describe('Testing the /player:name', function() {
-    it('Retrieval after POST', function(done) {
-      let uniquePlayerName = 'UniquePlayerName' + Math.floor((1 + Math.random()) * 0x10000);
-      let message = 'text=@Laura and @' + uniquePlayerName + ' crushed @Peter + @Mary today, winning 10:0';
-      request(app)
-        .post('/')
-        .set('Content-Type', 'application/x-www-form-urlencoded')
-        .send(message)
-        .expect(201, '@Laura and @' + uniquePlayerName + ' played 10:0 against @Peter and @Mary.')
-        .then(function get() {
-          request(app)
-            .get('/players/@' + uniquePlayerName)
-            .set('Accept', 'application/json')
-            .expect(200)
-            .end(done);
-        });
-    });
-  });
-
   describe('Testing /results API (storage of results in mongodb)', function() {
     it('Create, read and delete a resource', function(done) {
       request(app)
