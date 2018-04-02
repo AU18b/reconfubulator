@@ -1,5 +1,6 @@
 const request = require('supertest');
 const app = require('../../../app.js');
+const assert = require('chai').assert;
 
 describe('Testing the /player:name', function() {
   it('Retrieval after POST', function(done) {
@@ -18,10 +19,16 @@ describe('Testing the /player:name', function() {
       })
       .then(function get() {
         request(app)
-          .get('/players/@' + uniquePlayerName + '?limit=1')
+          .get('/players/@' + uniquePlayerName + '?limit=1&sort=created')
           .set('Accept', 'application/json')
           .expect(200)
-          .end(done);
+          .end(function(err, res) {
+            assert.equal(res.body.query.limit, 1);
+            assert.equal(res.body.query.links[0].href, '/players/@'+ uniquePlayerName +'?limit=1&sort=created');
+            assert.equal(res.body.query.size, 1);
+            assert.equal(res.body.query.sort, 'created');
+            done();
+          });
       });
   });
 });
