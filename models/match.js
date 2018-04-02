@@ -9,7 +9,7 @@ const mongoose = require('mongoose');
  *    created: Date
  *    _id:
  */
-const matchSchema = mongoose.Schema({
+const schema = mongoose.Schema({
   'created': {
     required: false,
     type: Date,
@@ -49,4 +49,8 @@ const matchSchema = mongoose.Schema({
   }
 });
 
-module.exports = mongoose.model('Match', matchSchema);
+schema.virtual('winners').get(function () {
+  return (this.match[0].score === 10) ? this.match[0].team : this.match[1].team;
+});
+
+module.exports = mongoose.model('Match', schema);

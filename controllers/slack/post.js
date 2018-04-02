@@ -1,6 +1,6 @@
 
-const parse = require('../parse.js');
-const MatchModel = require('../models/match.js');
+const parse = require('../../parse');
+const MatchModel = require('../../models/match');
 
 /**
  * POST /
