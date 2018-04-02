@@ -1,9 +1,9 @@
 const MatchModel = require('../../models/match.js');
 
 module.exports = function(request, response) {
-  MatchModel.find(
-    { '_id': request.params.id },
-    function (err, docs) {
+  MatchModel
+    .findById(request.params.id)
+    .exec(function (err, docs) {
       if (err) {
         response.status(500).send(err);
         return;

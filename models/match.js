@@ -1,6 +1,20 @@
 const mongoose = require('mongoose');
 
+/**
+ * Structure:
+ *    match: [
+ *        team: [String]
+ *        score: Number
+ *    ]
+ *    created: Date
+ *    _id:
+ */
 const matchSchema = mongoose.Schema({
+  'created': {
+    required: false,
+    type: Date,
+    default: Date.now 
+  },
   'match' : {
     required: [true, 'This is unacceptable, I need a match key to parse.'],
     validate: [{
