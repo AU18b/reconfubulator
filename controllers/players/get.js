@@ -2,12 +2,12 @@ const MatchModel = require('./../../models/match.js');
 
 module.exports = function(request, response) {
   let query = { 'match.team':  request.params.name };
-  let limit = parseInt(request.query.limit) || 20;
+  let limit = request.query.limit || 20;
   let sort = request.query.sort || '-_id';
   
   MatchModel
     .find(query)
-    .limit(limit)
+    .limit(parseInt(limit))
     .sort(sort)
     .select('created match.team match.score _id')
     .exec(function (err, docs) {

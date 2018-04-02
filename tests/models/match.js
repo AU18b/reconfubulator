@@ -51,6 +51,23 @@ describe('Match result model tests', function() {
     });
   });
 
+  describe('Get Winner:', function() {
+    it('straight forward:', function() {
+      let match = { 
+        'created': 'Tue, 01 Jan 2008 22:00:00 GMT',
+        'match': [{ 
+          'team': ['Alejandra', 'Sergey'], 
+          'score': 9
+        }, {
+          'team': ['Marcus', 'Ken'], 
+          'score': 10
+        }]};
+        
+      let model = new MatchModel(match);
+      assert.include(model.winners, 'Marcus');
+      assert.include(model.winners, 'Ken');
+    });
+  });
   
 
   describe('Pre save validation:', function() {
