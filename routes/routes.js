@@ -2,14 +2,14 @@ const express = require('express');
 const router = express.Router();
 
 const postResult = require('../controllers/post.slack.result');
+const postPlayerStreak = require('../controllers/slack/streak');
 
-//Middle ware that is specific to this router
 router.use(function timeLog(req, res, next) {
   console.log(new Date().toISOString(), req.protocol, req.method, req.url);
   next();
 });
 
-// routes
 router.post('/slack/result', postResult);
+router.post('/slack/streak', postPlayerStreak);
 
 module.exports = router;
