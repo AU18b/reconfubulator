@@ -16,7 +16,7 @@ describe('Supertesting the /slack/streak API', function() {
           request(app)
             .post('/slack/streak')
             .set('Content-Type', 'application/x-www-form-urlencoded')
-            .send("text=@Laura")
+            .send('text=@Laura')
             .expect(200)
             .end(function assertificate(err, res) {
               if(err) { console.log(err); assert.fail(err); return; }
