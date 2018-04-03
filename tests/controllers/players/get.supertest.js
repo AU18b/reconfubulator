@@ -7,7 +7,7 @@ describe('Testing the /player:name', function() {
     let uniquePlayerName = 'UniquePlayerName' + Math.floor((1 + Math.random()) * 0x10000);
     let message = 'text=@Laura and @' + uniquePlayerName + ' crushed @Peter + @Mary today, winning 10:0';
     request(app)
-      .post('/slack/')
+      .post('/slack/result')
       .set('Content-Type', 'application/x-www-form-urlencoded')
       .send(message)
       .expect(201, '@Laura and @' + uniquePlayerName + ' played 10:0 against @Peter and @Mary.')
@@ -22,6 +22,8 @@ describe('Testing the /player:name', function() {
           .set('Accept', 'application/json')
           .expect(200)
           .end(function(err, res) {
+            if(err) { console.log(err); assert.fail(err); return; }
+            console.log(res);
             assert.equal(res.body.query.limit, 1);
             assert.equal(res.body.query.links[0].href, '/players/@'+ uniquePlayerName +'?limit=1&sort=created');
             assert.equal(res.body.query.size, 1);

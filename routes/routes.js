@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const postFromSlack = require('../controllers/slack/post');
+const postPlayerStreak = require('../controllers/slack/streak');
 const postResultJson = require('../controllers/results/post');
 const getPlayerResults = require('../controllers/players/get');
 const getResults = require('../controllers/results/get');
@@ -14,7 +15,9 @@ router.use(function timeLog(req, res, next) {
 });
 
 // routes
-router.post('/slack/', postFromSlack);
+router.post('/slack/result', postFromSlack);
+router.post('/slack/streak', postPlayerStreak);
+
 router.get('/results/', getResults);
 router.post('/results/', postResultJson);
 router.get('/results/:id', getResultById);
