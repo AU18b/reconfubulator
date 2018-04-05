@@ -1,6 +1,6 @@
 
-const parse = require('../../parse');
-const MatchModel = require('../../models/match');
+const parse = require('./../parse');
+const MatchModel = require('./../models/match');
 
 /**
  * POST /
@@ -9,11 +9,17 @@ const MatchModel = require('../../models/match');
 module.exports = function(request, response) {
   if (!request.body || !request.body.text) {
     response.status(400).send('You need to send some text, friend. You gave me crap.');
-    console.log(request);
+    return;
+  }
+
+  let parsed;
+  try {
+    parsed = parse(request.body.text);
+  } catch(e) {
+    response.status(400).send(e);
     return;
   }
   
-  let parsed = parse(request.body.text);
   getModel(parsed).save(function (err, row) {
     if (err) {
       response.status(500).send('I cound not save your data, the back-end says: ' + err);

@@ -30,6 +30,6 @@
   "scripts": {
     "start": "node app.js",
     "test": "eslint . && nyc mocha --recursive --exit --reporter xunit --reporter-options output=tests/results.xml tests/",
-    "coverage": "nyc check-coverage --lines 50 --functions 50 --branches 50"
+    "coverage": "nyc check-coverage --lines 80 --functions 80 --branches 70"
   }
 }
