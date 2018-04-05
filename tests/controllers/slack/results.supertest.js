@@ -1,12 +1,12 @@
 const request = require('supertest');
 const app = require('../../../app');
 
-describe('Supertesting the API', function() {
-  describe('Testing the / API (the reconfubulator)', function() {
+describe('Supertesting the /slack/result API', function() {
+  describe('Testing the /slack/result API (the reconfubulator)', function() {
     it('Missing body.text returns 400', function() {
       let message =  'something=@Laura and @Dennis crushed @Peter + @Mary today, winning 10:0';
       request(app)
-        .post('/slack/')
+        .post('/slack/result')
         .set('Content-Type', 'application/x-www-form-urlencoded')
         .send(message)
         .expect(400);
@@ -15,7 +15,7 @@ describe('Supertesting the API', function() {
     it('POST with body.text', function() {
       let message = 'text=@Laura and @Dennis crushed @Peter + @Mary today, winning 10:0';
       request(app)
-        .post('/slack/')
+        .post('/slack/result')
         .set('Content-Type', 'application/x-www-form-urlencoded')
         .send(message)
         .expect(200, '@Laura and @Dennis played 10:0 against @Peter and @Mary.');
