@@ -27,7 +27,7 @@ describe('Supertest', function() {
               }
 
               assert.isOk(res.text);
-              assert.match(res.text, /^@UniquePlayerName[a-zA-Z0-9]+ has won [0-9]+ games in a row.*/);
+              assert.match(res.text, /^@UniquePlayerName[a-zA-Z0-9]+ has won [0-9]+ game\(s\) in a row.*/);
               done();
             });
 

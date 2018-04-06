@@ -1,9 +1,10 @@
 const MatchModel = require('./../../models/match.js');
 const util = require('util');
+const moment = require('moment');
 
 module.exports = function(request, response) {
-  let name = request.body.text;
-  let query = { 'match.team':  name };
+  const name = request.body.text;
+  const query = { 'match.team':  name };
 
   MatchModel
     .find(query)
@@ -28,9 +29,10 @@ module.exports = function(request, response) {
         won = winningTeam.includes(name);
 
         if (won) { 
-          result += util.format('\nVICTORY with %s \tagainst %s!'
-            ,  getTeamMate(name, docs[c].match)
+          result += util.format('\nVICTORY with %s against %s, that was like %s.'
+            , getTeamMate(name, docs[c].match)
             , getOpponents(name, docs[c].match)
+            , getHumanReadableTime(docs[c].created)
           );
           c++; 
         }
@@ -38,7 +40,7 @@ module.exports = function(request, response) {
       }
       let slackMessage = '';
       if (c > 0) {
-        slackMessage = util.format('%s has won %d games in a row: '
+        slackMessage = util.format('%s has won %d game(s) in a row: '
           , name
           , c
         );
@@ -55,11 +57,17 @@ module.exports = function(request, response) {
 };
 
 function getTeamMate(player, match) {
-  let myTeam = match[0].team.includes(player) ? match[0].team : match[1].team;
+  const myTeam = match[0].team.includes(player) ? match[0].team : match[1].team;
   return (myTeam[0] === player) ? myTeam[1] : myTeam[0];
 }
 
 function getOpponents(player, match) {
-  let losers = match[0].team.includes(player) ? match[1].team : match[0].team;
-  return util.format('%s \tand \t%s', losers[0], losers[1]);
+  const losers = match[0].team.includes(player) ? match[1].team : match[0].team;
+  return util.format('%s and %s', losers[0], losers[1]);
+}
+
+function getHumanReadableTime(time) {
+  const a = moment(time);
+  const now = moment();
+  return a.from(now); 
 }
