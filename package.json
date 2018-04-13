@@ -1,7 +1,7 @@
 {
-  "name": "reconfubulator",
-  "version": "0.0.1",
-  "description": "A microservice that takes a string from slack and reconfubles it into a tischkicker game result.",
+  "name": "au18b",
+  "version": "0.1.1",
+  "description": "A service that takes a string from slack and reconfubles it into a tischkicker game result.",
   "author": {
     "name": "Christoph Szymanski",
     "email": "Christoph.Szymanski@gmx.de"
@@ -16,8 +16,9 @@
   },
   "dependencies": {
     "body-parser": "1.18.2",
-    "express": "4.16.3",
     "cfenv": "1.0.4",
+    "express": "4.16.3",
+    "moment": "2.22.0",
     "mongoose": "5.0.13"
   },
   "devDependencies": {
