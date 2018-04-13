@@ -1,4 +1,4 @@
-const MatchModel = require('./../../models/match.js');
+const MatchModel = require('./../models/match.js');
 const util = require('util');
 const moment = require('moment');
 
