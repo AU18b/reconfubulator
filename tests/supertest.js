@@ -21,7 +21,7 @@ describe('Supertest', function() {
         10, 0,
         slackify('Tom'),
         slackify('Mary')
-      )
+      );
       request(app)
         .post('/slack/result')
         .set('Content-Type', 'application/x-www-form-urlencoded')
@@ -49,39 +49,39 @@ describe('Supertest', function() {
   });
 
   it('returns 400 on missing body.text', function(done) {
-      let message =  'something=@Laura and @Dennis crushed @Peter + @Mary today, winning 10:0';
-      request(app)
-        .post('/slack/result')
-        .set('Content-Type', 'application/x-www-form-urlencoded')
-        .send(message)
-        .expect(400)
-        .end(done);
-    });
+    let message =  'something=@Laura and @Dennis crushed @Peter + @Mary today, winning 10:0';
+    request(app)
+      .post('/slack/result')
+      .set('Content-Type', 'application/x-www-form-urlencoded')
+      .send(message)
+      .expect(400)
+      .end(done);
+  });
 
-    it('returns 400 if body.text can not be parsed (missing goals)', function(done) {
-      const message = util.format('text=%s and %s crushed %s and %s today',
-        slackify('Laura'),
-        slackify('Ben'),
-        slackify('Tom'),
-        slackify('Mary')
-      );
-      request(app)
-        .post('/slack/result')
-        .set('Content-Type', 'application/x-www-form-urlencoded')
-        .send(message)
-        .expect(400)
-        .end(done);
-    });
+  it('returns 400 if body.text can not be parsed (missing goals)', function(done) {
+    const message = util.format('text=%s and %s crushed %s and %s today',
+      slackify('Laura'),
+      slackify('Ben'),
+      slackify('Tom'),
+      slackify('Mary')
+    );
+    request(app)
+      .post('/slack/result')
+      .set('Content-Type', 'application/x-www-form-urlencoded')
+      .send(message)
+      .expect(400)
+      .end(done);
+  });
 
-    it('returns 400 if body.text can not be parsed (missing players)', function(done) {
-      const message = 'text=Somebody played today 1 : 10';
-      request(app)
-        .post('/slack/result')
-        .set('Content-Type', 'application/x-www-form-urlencoded')
-        .send(message)
-        .expect(400)
-        .end(done);
-    });
+  it('returns 400 if body.text can not be parsed (missing players)', function(done) {
+    const message = 'text=Somebody played today 1 : 10';
+    request(app)
+      .post('/slack/result')
+      .set('Content-Type', 'application/x-www-form-urlencoded')
+      .send(message)
+      .expect(400)
+      .end(done);
+  });
 });
 
 /**
@@ -94,4 +94,4 @@ const slackify = function(name) {
   } else {
     return '<@01234FFFFFF|' + name + '>';
   }
-}
+};
