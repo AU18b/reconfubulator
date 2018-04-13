@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const postResult = require('../controllers/post.slack.result');
-const postPlayerStreak = require('../controllers/slack/streak');
+const postPlayerStreak = require('../controllers/post.slack.streak');
 
 router.use(function timeLog(req, res, next) {
   console.log(new Date().toISOString(), req.protocol, req.method, req.url);

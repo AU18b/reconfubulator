@@ -1,10 +1,11 @@
 module.exports = function parse(text) {
-  let playersRegex = /@[a-z0-9._-]+/gi;
-  let scoreRegex = /([0-9]{1,2})/gi;
-  let players = text.match(playersRegex);
+  const playersRegex = /<(@[0-9A-Z]+)(|\|[^>]+)>/gi;
+  const scoreRegex = /([0-9]{1,2})/gi;
+  const players = text.match(playersRegex);
+
   let textWithoutPlayers = text;
-  
-  if(!players || players.length ===0) {
+
+  if(!players || players.length === 0) {
     throw(new Error('Can\'t parse any players names from your input.'));
   }
 
@@ -15,8 +16,8 @@ module.exports = function parse(text) {
   players.forEach(name => {
     textWithoutPlayers =  textWithoutPlayers.replace(new RegExp(name,'gm'),'');
   });
-   
-  let score = textWithoutPlayers.match(scoreRegex);
+
+  const score = textWithoutPlayers.match(scoreRegex);
   
   if(!score || score.length != 2) {
     throw(new Error('Can\'t parse score from your input.'));
