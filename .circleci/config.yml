@@ -101,6 +101,7 @@ workflows:
           requires:
             - build
       - deploy-to-production:
+          type: approval
           requires:
             - smoketest
             - build
