@@ -100,11 +100,17 @@ workflows:
       - smoketest:
           requires:
             - build
-      - deploy-to-production:
+      - approve-deployment:
           type: approval
           requires:
             - smoketest
             - build
+          filters:
+            branches:
+              only: deployment
+      - deploy-to-production:
+          requires:
+            - approve-deployment
           filters:
             branches:
               only: deployment
