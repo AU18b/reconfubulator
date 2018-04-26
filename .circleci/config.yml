@@ -107,10 +107,10 @@ workflows:
             - build
           filters:
             branches:
-              only: deployment
+              only: master
       - deploy-to-production:
           requires:
             - approve-deployment
           filters:
             branches:
-              only: deployment
+              only: master
