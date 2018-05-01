@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/node:9.8.0
+      - image: circleci/node:10.0.0
       - image: mongo:3.6.3
         command: [mongod, --smallfiles]
     working_directory: ~/repo
